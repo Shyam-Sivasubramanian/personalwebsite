@@ -36,46 +36,67 @@
             setInterval(loadData, 300000); // Refresh every 5 minutes
         }
 
-        // Fetch balloon data and process
         async function loadData() {
-            try {
-                const response = await fetch('https://a.windbornesystems.com/treasure/00.json');
-                const balloons = await response.json();
-                
-                // Clear old markers
-                markers.forEach(marker => map.removeLayer(marker));
-                markers = [];
-                
-                // Process each balloon
-                for (const balloon of balloons) {
-                    if (balloon.lat && balloon.lon) {
-                        const weather = await fetchWeather(balloon.lat, balloon.lon);
-                        addMarker(balloon, weather);
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
-        }
+    try {
+        // Use proxy for Windborne API
+        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        const response = await fetch(proxyUrl + "https://a.windbornesystems.com/treasure/00.json");
+        
+        if (!response.ok) throw new Error("Balloon data failed to load");
+        const balloons = await response.json();
 
-        // Fetch weather data from NWS API
-        async function fetchWeather(lat, lon) {
-            try {
-                const pointsResponse = await fetch(`https://api.weather.gov/points/${lat},${lon}`);
-                const pointsData = await pointsResponse.json();
-                
-                const forecastResponse = await fetch(pointsData.properties.forecast);
-                const forecastData = await forecastResponse.json();
-                
-                return {
-                    temperature: forecastData.properties.periods[0]?.temperature,
-                    conditions: forecastData.properties.periods[0]?.shortForecast
-                };
-            } catch (error) {
-                console.error('Error fetching weather:', error);
-                return { temperature: 'N/A', conditions: 'Unknown' };
+        // Clear old markers
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+
+        // Process balloons
+        for (const balloon of balloons) {
+            if (balloon.lat && balloon.lon) {
+                // Add error handling for weather API
+                try {
+                    const weather = await fetchWeather(balloon.lat, balloon.lon);
+                    addMarker(balloon, weather);
+                } catch (weatherError) {
+                    console.warn("Weather fetch failed:", weatherError);
+                    addMarker(balloon, { temperature: "N/A", conditions: "Weather unavailable" });
+                }
             }
         }
+    } catch (error) {
+        console.error("Critical error:", error);
+        alert("Failed to load data. Check console for details.");
+    }
+}
+
+        async function fetchWeather(lat, lon) {
+    try {
+        // Add timeout to avoid hanging requests
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+        // Get grid points
+        const pointsResponse = await fetch(
+            `https://api.weather.gov/points/${lat},${lon}`,
+            { signal: controller.signal }
+        );
+        clearTimeout(timeoutId);
+
+        if (!pointsResponse.ok) throw new Error("Grid points failed");
+        const pointsData = await pointsResponse.json();
+
+        // Get forecast
+        const forecastResponse = await fetch(pointsData.properties.forecast);
+        const forecastData = await forecastResponse.json();
+
+        return {
+            temperature: forecastData.properties.periods[0]?.temperature || "N/A",
+            conditions: forecastData.properties.periods[0]?.shortForecast || "Unknown"
+        };
+    } catch (error) {
+        console.error("Weather API error:", error);
+        return { temperature: "N/A", conditions: "Weather unavailable" };
+    }
+}
 
         // Add marker to map
         function addMarker(balloon, weather) {
