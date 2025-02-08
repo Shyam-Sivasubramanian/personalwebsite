@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Balloon Tracker with Weather</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map { height: 90vh; }
+        .refresh-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button class="refresh-button" onclick="loadData()">Refresh Data</button>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        let map;
+        let markers = [];
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([30, 0], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            loadData();
+            setInterval(loadData, 300000); // Refresh every 5 minutes
+        }
+
+        // Fetch balloon data and process
+        async function loadData() {
+            try {
+                const response = await fetch('https://a.windbornesystems.com/treasure/00.json');
+                const balloons = await response.json();
+                
+                // Clear old markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+                
+                // Process each balloon
+                for (const balloon of balloons) {
+                    if (balloon.lat && balloon.lon) {
+                        const weather = await fetchWeather(balloon.lat, balloon.lon);
+                        addMarker(balloon, weather);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Fetch weather data from NWS API
+        async function fetchWeather(lat, lon) {
+            try {
+                const pointsResponse = await fetch(`https://api.weather.gov/points/${lat},${lon}`);
+                const pointsData = await pointsResponse.json();
+                
+                const forecastResponse = await fetch(pointsData.properties.forecast);
+                const forecastData = await forecastResponse.json();
+                
+                return {
+                    temperature: forecastData.properties.periods[0]?.temperature,
+                    conditions: forecastData.properties.periods[0]?.shortForecast
+                };
+            } catch (error) {
+                console.error('Error fetching weather:', error);
+                return { temperature: 'N/A', conditions: 'Unknown' };
+            }
+        }
+
+        // Add marker to map
+        function addMarker(balloon, weather) {
+            const marker = L.marker([balloon.lat, balloon.lon]).addTo(map);
+            marker.bindPopup(`
+                <b>Balloon ${balloon.id}</b><br>
+                Altitude: ${balloon.altitude}m<br>
+                Weather: ${weather.conditions}<br>
+                Temperature: ${weather.temperature}°F
+            `);
+            markers.push(marker);
+        }
+
+        // Initialize application
+        initMap();
+    </script>
+</body>
+</html>
