@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shyam Sivasubramanian — Portfolio</title>
-  <meta name="description" content="Personal portfolio of Shyam Sivasubramanian: projects, experience, skills, and contact." />
+  <meta name="description" content="Personal portfolio of Your Name: projects, experience, skills, and contact." />
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3CradialGradient id='grad' cx='30%25' cy='30%25' r='90%25'%3E%3Cstop offset='0%25' style='stop-color:%237c5cff;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300d2ff;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='34' height='34' rx='10' fill='url(%23grad)'/%3E%3C/svg%3E">
@@ -126,49 +126,82 @@
       border-radius: 16px; overflow: hidden; 
       transition: transform .12s ease, box-shadow .25s ease;
       cursor: pointer; text-decoration: none; color: inherit;
-      display: block; height: 100%;
+      display: block; height: 200px; position: relative;
     }
     .project-card:hover { 
       transform: translateY(-3px); 
       box-shadow: 0 16px 40px rgba(0,0,0,.35);
       color: inherit;
     }
-    .thumb { 
-      width: 100%; aspect-ratio: 16/10; 
-      background: linear-gradient(120deg, #172038, #0e1422); 
-      display: grid; place-items: center; font-weight: 800; 
-      letter-spacing: 1px; position: relative; overflow: hidden;
+    .project-title { 
+      height: 100%; display: grid; place-items: center; 
+      font-weight: 800; font-size: 20px; letter-spacing: 1px; 
+      text-align: center; padding: 20px;
     }
-    .thumb::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: left 0.5s ease;
+
+    /* Modal for expanded project */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; padding: 20px;
     }
-    .project-card:hover .thumb::before {
-      left: 100%;
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; width: min(800px, 95vw); max-height: 90vh;
+      overflow-y: auto; position: relative;
     }
-    .card-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-    .card-body h3 { margin: 0; font-size: 18px; font-weight: 700; }
-    .card-body p { margin: 0; line-height: 1.5; }
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-    .tag { 
-      font-size: 12px; padding: 6px 10px; 
-      background: #0c1220; border: 1px solid var(--border); 
-      border-radius: 999px; color: var(--muted); font-weight: 500;
+    .modal-header {
+      padding: 30px 30px 20px; border-bottom: 1px solid var(--border);
+      position: relative;
     }
-    .project-links { 
-      margin-top: 12px; display: flex; gap: 12px; 
-      font-size: 14px; font-weight: 600;
+    .modal-title {
+      font-size: 28px; font-weight: 800; margin: 0;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .project-links a { 
-      color: var(--brand); transition: color 0.2s ease; 
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      background: none; border: none; color: var(--muted);
+      font-size: 24px; cursor: pointer; padding: 8px;
+      border-radius: 8px; transition: all 0.2s ease;
     }
-    .project-links a:hover { color: var(--brand-2); }
+    .modal-close:hover {
+      background: var(--border); color: var(--text);
+    }
+    .modal-body {
+      padding: 30px;
+    }
+    .modal-description {
+      font-size: 16px; line-height: 1.6; margin-bottom: 30px;
+      color: var(--muted);
+    }
+    .modal-tags {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;
+    }
+    .modal-tag {
+      font-size: 13px; padding: 8px 14px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 20px; color: var(--text); font-weight: 600;
+    }
+    .modal-actions {
+      display: flex; gap: 15px; flex-wrap: wrap;
+    }
+    .modal-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: #0b0f16; border: none; padding: 12px 24px;
+      border-radius: 12px; font-weight: 700; font-size: 14px;
+      cursor: pointer; transition: transform 0.1s ease;
+      text-decoration: none;
+    }
+    .modal-btn:hover { transform: translateY(-1px); }
+    .modal-btn.secondary {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
 
     /* Timeline */
     .timeline { position: relative; padding-left: 18px; }
@@ -219,6 +252,9 @@
       .social-btn { width: 36px; height: 36px; font-size: 14px; }
       .btn { padding: 8px 12px; font-size: 13px; }
       .footer-content { flex-direction: column; text-align: center; }
+      .modal { margin: 10px; }
+      .modal-header, .modal-body { padding: 20px; }
+      .modal-actions { flex-direction: column; }
     }
 
     /* Light theme overrides */
@@ -245,10 +281,6 @@
       box-shadow: 0 16px 40px rgba(0,0,0,0.12);
     }
     
-    [data-theme="light"] .thumb {
-      background: linear-gradient(120deg, #f1f5ff, #e8f0ff);
-    }
-    
     [data-theme="light"] .chip {
       background: #f8faff;
       border: 1px solid #e5e7eb;
@@ -268,10 +300,40 @@
       background: #f8faff;
     }
     
-    [data-theme="light"] .tag {
-      background: #f1f5ff;
+    [data-theme="light"] .nav {
+      background: rgba(255, 255, 255, 0.6);
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .btn {
+      background: linear-gradient(180deg, #ffffff, #f8faff);
       border: 1px solid #e5e7eb;
-      color: #4b5563;
+    }
+    
+    [data-theme="light"] .btn:hover {
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    [data-theme="light"] .modal {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .modal-header {
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .modal-tag {
+      background: #f8faff;
+      border: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .modal-btn.secondary {
+      border: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .modal-close:hover {
+      background: #f1f5f9;
     }
   </style>
 </head>
@@ -290,17 +352,17 @@
       </div>
       <div class="nav-actions">
         <div class="social-links">
-          <a class="social-btn" href="https://github.com/Shyam-Sivasubramanian" target="_blank" rel="noopener" aria-label="GitHub">
+          <a class="social-btn" href="https://github.com/youruser" target="_blank" rel="noopener" aria-label="GitHub">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
           </a>
-          <a class="social-btn" href="https://www.linkedin.com/in/shyam-sivasubramanian-69a420216/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <a class="social-btn" href="https://www.linkedin.com/in/youruser" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
             </svg>
           </a>
-          <a class="social-btn" href="mailto:sivasubr@purdue.edu" aria-label="Email">
+          <a class="social-btn" href="mailto:you@example.com" aria-label="Email">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
               <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.9.732-1.636 1.636-1.636h.749L12 10.58l9.615-6.759h.749c.904 0 1.636.732 1.636 1.636z"/>
             </svg>
@@ -326,7 +388,7 @@
     </div>
     <div class="hero-card">
       <img class="pfp" src="_DSC0659_Original.jpg" alt="Shyam Sivasubramanian" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-      <div class="pfp">Your Photo Here</div>
+      <div class="pfp pfp-placeholder" style="display:none;">Your Photo Here</div>
     </div>
   </header>
 
@@ -336,59 +398,99 @@
     <div class="grid projects">
       
       <!-- Project 1: DeepRow -->
-      <a href="https://github.com/Shyam-Sivasubramanian/DeepRow" target="_blank" rel="noopener" class="project-card">
-        <div class="thumb">DeepRow</div>
-        <div class="card-body">
-          <h3>Smart Rowing Form AI</h3>
-          <p class="muted">DeepRow is a Science Fair entry that uses data gathered from professional athletes to provide users with a score of how good their form is on a rowing machine. The project employs computer vision and pose estimation using Python libraries such as Scikit Learn, NumPy, OpenCV, and MediaPipe.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">OpenCV</span>
-            <span class="tag">MediaPipe</span>
-            <span class="tag">Scikit-Learn</span>
-          </div>
-          <div class="project-links">
-            <span>Live Demo</span> · <span>View Code</span>
-          </div>
-        </div>
-      </a>
+      <div class="project-card" onclick="openModal('deeprow')">
+        <div class="project-title">Smart Minesweeper AI</div>
+      </div>
 
-      <!-- Project 2: ML Toolkit -->
-      <a href="#" target="_blank" rel="noopener" class="project-card">
-        <!-- <div class="thumb">ML Toolkit</div> -->
-        <div class="card-body">
-          <h3>Minesweeper Auto Solver</h3>
-          <p class="muted">a personal passion project that creates Minesweeper puzzles and attempts to solve them. Puzzles are solved using algorithmic thinking via a hierarchy of reasoning.</p>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">PyTorch</span>
-            <span class="tag">Scikit‑learn</span>
-          </div>
-          <div class="project-links">
-            <span>Documentation</span> · <span>View Code</span>
-          </div>
-        </div>
-      </a>
+      <!-- Project 2: Minesweeper -->
+      <div class="project-card" onclick="openModal('minesweeper')">
+        <div class="project-title">Tabular ML Toolkit</div>
+      </div>
 
       <!-- Project 3: Finance Dashboard -->
-      <a href="#" target="_blank" rel="noopener" class="project-card">
-        <div class="thumb">Finance App</div>
-        <div class="card-body">
-          <h3>Personal Finance Dashboard</h3>
-          <p class="muted">A serverless dashboard with CSV import capabilities, interactive charts, and monthly insights for personal financial tracking and analysis.</p>
-          <div class="tags">
-            <span class="tag">Next.js</span>
-            <span class="tag">Edge Functions</span>
-            <span class="tag">D3.js</span>
-          </div>
-          <div class="project-links">
-            <span>Live Demo</span> · <span>View Code</span>
-          </div>
-        </div>
-      </a>
+      <div class="project-card" onclick="openModal('finance')">
+        <div class="project-title">Personal Finance Dashboard</div>
+      </div>
 
     </div>
   </section>
+
+  <!-- Project Modals -->
+  <div class="modal-overlay" id="modal-deeprow">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Smart Minesweeper AI</h3>
+        <button class="modal-close" onclick="closeModal('deeprow')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-description">
+          An advanced artificial intelligence system that plays Minesweeper using sophisticated algorithms. 
+          The AI employs pattern recognition, probability calculation, and logical deduction to solve puzzles 
+          with high accuracy. Features multiple difficulty levels and real-time visualization of the AI's 
+          decision-making process.
+        </p>
+        <div class="modal-tags">
+          <span class="modal-tag">TypeScript</span>
+          <span class="modal-tag">Vite</span>
+          <span class="modal-tag">Web Worker</span>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="modal-btn" target="_blank" rel="noopener">View Website</a>
+          <a href="#" class="modal-btn secondary" target="_blank" rel="noopener">View Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-minesweeper">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Tabular ML Toolkit</h3>
+        <button class="modal-close" onclick="closeModal('minesweeper')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-description">
+          A comprehensive machine learning toolkit designed for tabular data processing and analysis. 
+          Includes SAINT/VIME pretraining implementations with clean baseline comparisons and detailed 
+          visual reporting including ROC AUC curves, precision-recall curves, and feature importance analysis.
+        </p>
+        <div class="modal-tags">
+          <span class="modal-tag">Python</span>
+          <span class="modal-tag">PyTorch</span>
+          <span class="modal-tag">Scikit-learn</span>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="modal-btn" target="_blank" rel="noopener">View Documentation</a>
+          <a href="#" class="modal-btn secondary" target="_blank" rel="noopener">View Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-finance">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Personal Finance Dashboard</h3>
+        <button class="modal-close" onclick="closeModal('finance')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-description">
+          A modern serverless dashboard for personal financial management. Features CSV import capabilities, 
+          interactive charts powered by D3.js, and intelligent monthly insights. Built with Next.js and 
+          edge functions for optimal performance and scalability.
+        </p>
+        <div class="modal-tags">
+          <span class="modal-tag">Next.js</span>
+          <span class="modal-tag">Edge Functions</span>
+          <span class="modal-tag">D3.js</span>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="modal-btn" target="_blank" rel="noopener">Live Demo</a>
+          <a href="#" class="modal-btn secondary" target="_blank" rel="noopener">View Code</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- SKILLS -->
   <section id="skills" class="container">
@@ -425,11 +527,11 @@
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div>© <span id="year"></span> Shyam Sivasubramanian. All rights reserved.</div>
+        <div>© <span id="year"></span> Your Name. All rights reserved.</div>
         <div class="footer-links">
-          <a href="https://github.com/Shyam-Sivasubramanian" aria-label="GitHub">GitHub</a>
-          <a href="https://www.linkedin.com/in/shyam-sivasubramanian-69a420216/" aria-label="LinkedIn">LinkedIn</a>
-          <a href="mailto:sivasubr@purdue.edu" aria-label="Email">Email</a>
+          <a href="https://github.com/youruser" aria-label="GitHub">GitHub</a>
+          <a href="https://www.linkedin.com/in/youruser" aria-label="LinkedIn">LinkedIn</a>
+          <a href="mailto:you@example.com" aria-label="Email">Email</a>
         </div>
       </div>
     </div>
@@ -490,6 +592,43 @@
       document.body.style.background = '';
       document.body.style.color = '';
     }
+
+    // Modal functionality
+    function openModal(projectId) {
+      const modal = document.getElementById('modal-' + projectId);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeModal(projectId) {
+      const modal = document.getElementById('modal-' + projectId);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Close modal when clicking outside
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+          modal.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      }
+    });
   </script>
 </body>
 </html>
