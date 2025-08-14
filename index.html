@@ -98,6 +98,8 @@
       aspect-ratio: 1/1; width: 100%; border-radius: 14px; object-fit: cover; 
       background: linear-gradient(135deg, #1e2a4a, #0f1a2e); 
       border: 1px solid var(--border);
+    }
+    .pfp-placeholder {
       display: flex; align-items: center; justify-content: center;
       color: var(--muted); font-size: 18px; font-weight: 600;
     }
@@ -228,6 +230,49 @@
       --card: #ffffff;
       --border: #e5e7eb;
     }
+    
+    [data-theme="light"] .hero-card {
+      background: radial-gradient(120% 120% at 0% 0%, #ffffff, #f8faff);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    
+    [data-theme="light"] .project-card {
+      background: #ffffff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    }
+    
+    [data-theme="light"] .project-card:hover {
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+    
+    [data-theme="light"] .thumb {
+      background: linear-gradient(120deg, #f1f5ff, #e8f0ff);
+    }
+    
+    [data-theme="light"] .chip {
+      background: #f8faff;
+      border: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .chip:hover {
+      background: #ffffff;
+      box-shadow: 0 0 0 2px #e5e7eb inset;
+    }
+    
+    [data-theme="light"] .t-item {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+    
+    [data-theme="light"] .t-item:hover {
+      background: #f8faff;
+    }
+    
+    [data-theme="light"] .tag {
+      background: #f1f5ff;
+      border: 1px solid #e5e7eb;
+      color: #4b5563;
+    }
   </style>
 </head>
 <body>
@@ -255,7 +300,7 @@
               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
             </svg>
           </a>
-          <a class="social-btn" href="sivasubr@purdue.edu" aria-label="Email">
+          <a class="social-btn" href="mailto:sivasubr@purdue.edu" aria-label="Email">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
               <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.9.732-1.636 1.636-1.636h.749L12 10.58l9.615-6.759h.749c.904 0 1.636.732 1.636 1.636z"/>
             </svg>
@@ -275,12 +320,13 @@
       <p class="subtitle">I am a current junior (Class of 2027) at Purdue University double majoring in computer and data science.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#projects">See my work →</a>
-        <a class="btn btn-ghost" href="sivasubr@purdue.edu">Get in touch</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
       </div>
       <p class="muted" style="margin-top: 12px">🚀 Open to freelance & collabs</p>
     </div>
     <div class="hero-card">
-      <img class="pfp" src="_DSC0659_Original.jpg" alt="Shyam Sivasubramanian" />
+      <img class="pfp" src="_DSC0659_Original.jpg" alt="Shyam Sivasubramanian" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+      <div class="pfp">Your Photo Here</div>
     </div>
   </header>
 
@@ -308,18 +354,18 @@
       </a>
 
       <!-- Project 2: ML Toolkit -->
-      <a href="https://shyam-sivasubramanian.github.io/Minesweeper/" target="_blank" rel="noopener" class="project-card">
-        <div class="thumb">Minesweeper Auto Solver</div>
+      <a href="#" target="_blank" rel="noopener" class="project-card">
+        <!-- <div class="thumb">ML Toolkit</div> -->
         <div class="card-body">
-          <h3>Tabular ML Toolkit</h3>
-          <p class="muted">SAINT/VIME pretraining demos with clean baselines and visual reporting including ROC AUC and PR curves for comprehensive model evaluation.</p>
+          <h3>Minesweeper Auto Solver</h3>
+          <p class="muted">a personal passion project that creates Minesweeper puzzles and attempts to solve them. Puzzles are solved using algorithmic thinking via a hierarchy of reasoning.</p>
           <div class="tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">JavaScript</span>
+            <span class="tag">Python</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Scikit‑learn</span>
           </div>
           <div class="project-links">
-            <span>View Project</span>
+            <span>Documentation</span> · <span>View Code</span>
           </div>
         </div>
       </a>
@@ -382,8 +428,8 @@
         <div>© <span id="year"></span> Shyam Sivasubramanian. All rights reserved.</div>
         <div class="footer-links">
           <a href="https://github.com/Shyam-Sivasubramanian" aria-label="GitHub">GitHub</a>
-          <a href="https://www.linkedin.com/in/shyam-sivasubramanian" aria-label="LinkedIn">LinkedIn</a>
-          <a href="mailto:your.email@example.com" aria-label="Email">Email</a>
+          <a href="https://www.linkedin.com/in/shyam-sivasubramanian-69a420216/" aria-label="LinkedIn">LinkedIn</a>
+          <a href="mailto:sivasubr@purdue.edu" aria-label="Email">Email</a>
         </div>
       </div>
     </div>
