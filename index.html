@@ -1,117 +1,312 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Balloon Tracker with Weather</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        #map { height: 90vh; }
-        .refresh-button {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-            padding: 8px;
-            background: white;
-            border: 1px solid #ccc;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Personal portfolio of Your Name: projects, experience, skills, and contact." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f16;
+      --panel: #0f1522;
+      --text: #e9eefc;
+      --muted: #a9b4cc;
+      --brand: #7c5cff; /* accent */
+      --brand-2: #00d2ff; /* gradient end */
+      --ring: rgba(124, 92, 255, 0.45);
+      --card: #12192a;
+      --border: #1f2940;
+      --success: #38d39f;
+      --warning: #ffd166;
+      --error: #ef476f;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, var(--bg), #0a0d13 40%, #070a0f 100%);
+      color: var(--text);
+      letter-spacing: 0.1px;
+    }
+    a { color: var(--text); text-decoration: none; }
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+
+    /* ---- NAV ---- */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(180%) blur(10px);
+      background: rgba(10, 13, 19, 0.6);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.5px; }
+    .logo {
+      width: 34px; height: 34px; border-radius: 10px; background: radial-gradient(60% 90% at 30% 30%, var(--brand), var(--brand-2));
+      box-shadow: 0 0 0 3px rgba(124,92,255,0.15), 0 8px 30px rgba(0, 210, 255, .2);
+    }
+    .nav-links { display: flex; gap: 18px; font-weight: 600; }
+    .nav-links a { padding: 8px 12px; border-radius: 10px; opacity: 0.9; }
+    .nav-links a:hover { background: var(--panel); box-shadow: 0 0 0 2px var(--border) inset; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--border); background: linear-gradient(180deg, #0d1320, #0c101b);
+      padding: 10px 14px; border-radius: 12px; font-weight: 700; letter-spacing: 0.3px; cursor: pointer;
+      transition: transform .05s ease, box-shadow .2s ease;
+    }
+    .btn:hover { box-shadow: 0 0 0 3px var(--ring); }
+    .btn:active { transform: translateY(1px); }
+
+    /* ---- HERO ---- */
+    .hero { padding: 72px 0 36px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: center; }
+    .kicker { color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; font-size: 12px; }
+    h1 { font-size: clamp(28px, 4.6vw, 56px); margin: 8px 0 10px; line-height: 1.08; }
+    .subtitle { font-size: clamp(16px, 2.1vw, 22px); color: var(--muted); margin-bottom: 20px; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .cta .btn-primary { background: linear-gradient(90deg, var(--brand), var(--brand-2)); border: none; color: #0b0f16; }
+    .cta .btn-ghost { background: transparent; }
+    .hero-card { background: radial-gradient(120% 120% at 0% 0%, #12192a, #0d1320); border: 1px solid var(--border); border-radius: 18px; padding: 18px; box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+    .pfp { aspect-ratio: 1/1; width: 100%; border-radius: 14px; object-fit: cover; background: #101827; border: 1px solid var(--border); }
+
+    /* ---- SECTIONS ---- */
+    section { padding: 52px 0; }
+    .section-title { font-size: clamp(22px, 3.2vw, 32px); margin: 0 0 18px; }
+    .muted { color: var(--muted); }
+    .grid { display: grid; gap: 18px; }
+
+    /* Skills */
+    .skills { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .chip { background: #0e1422; border: 1px solid var(--border); padding: 10px 12px; border-radius: 12px; font-weight: 600; text-align: center; }
+
+    /* Projects */
+    .projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform .12s ease, box-shadow .25s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+    .thumb { width: 100%; aspect-ratio: 16/10; background: linear-gradient(120deg, #172038, #0e1422); display: grid; place-items: center; font-weight: 800; letter-spacing: 1px; }
+    .card-body { padding: 16px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .tag { font-size: 12px; padding: 6px 10px; background: #0c1220; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 18px; }
+    .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--brand), var(--brand-2)); border-radius: 999px; }
+    .t-item { position: relative; padding: 10px 12px 10px 22px; margin: 8px 0; background: #0f1522; border: 1px solid var(--border); border-radius: 12px; }
+    .t-item::after { content: ""; position: absolute; left: -2px; top: 16px; width: 10px; height: 10px; border-radius: 999px; background: var(--brand); box-shadow: 0 0 0 3px rgba(124,92,255,.25); }
+
+    /* Contact */
+    form { display: grid; gap: 12px; }
+    input, textarea {
+      width: 100%; background: #0c1220; border: 1px solid var(--border); color: var(--text); border-radius: 12px; padding: 12px 14px; font: inherit;
+    }
+    input:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 22px 0 40px; color: var(--muted); }
+
+    /* Responsive */
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; }
+      .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      .projects { grid-template-columns: 1fr; }
+      .skills { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <button class="refresh-button" onclick="loadData()">Refresh Data</button>
-    <div id="map"></div>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <a href="#top">Your Name</a>
+      </div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <button class="btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </nav>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        let map;
-        let markers = [];
+  <!-- HERO -->
+  <header id="top" class="container hero">
+    <div>
+      <div class="kicker">Hello, I'm</div>
+      <h1>Your Name</h1>
+      <p class="subtitle">I build fast, accessible web apps and ML tools. Currently seeking opportunities in frontend, ML, and full‑stack engineering.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#projects">See my work →</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+      <p class="muted" style="margin-top: 12px">🚀 Open to freelance & collabs</p>
+    </div>
+    <div class="hero-card">
+      <img class="pfp" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1200&auto=format&fit=crop" alt="Portrait / cover image"/>
+    </div>
+  </header>
 
-        // Initialize map
-        function initMap() {
-            map = L.map('map').setView([30, 0], 2);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
-            }).addTo(map);
-            loadData();
-            setInterval(loadData, 300000); // Refresh every 5 minutes
+  <!-- ABOUT -->
+  <section id="about" class="container">
+    <h2 class="section-title">About</h2>
+    <p class="muted">I'm a developer with a focus on <strong>clean design</strong>, <strong>performance</strong>, and <strong>DX</strong>. I've shipped projects with React, Next.js, Node, Python, and cloud services. I like turning rough ideas into polished, production‑ready experiences.</p>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="container">
+    <h2 class="section-title">Projects</h2>
+    <div class="grid projects">
+      <!-- Project 1 -->
+      <article class="card">
+        <div class="thumb">Project A</div>
+        <div class="card-body">
+          <h3>Smart Minesweeper AI</h3>
+          <p class="muted">An AI that solves Minesweeper in the browser using constraint propagation and probability.</p>
+          <div class="tags">
+            <span class="tag">TypeScript</span>
+            <span class="tag">Vite</span>
+            <span class="tag">Web Worker</span>
+          </div>
+          <p style="margin-top: 10px"><a href="#" target="_blank" rel="noopener">Live</a> · <a href="#" target="_blank" rel="noopener">Code</a></p>
+        </div>
+      </article>
+      <!-- Project 2 -->
+      <article class="card">
+        <div class="thumb">Project B</div>
+        <div class="card-body">
+          <h3>Tabular ML Toolkit</h3>
+          <p class="muted">SAINT/VIME pretraining demos with clean baselines and visual reporting (ROC AUC, PR curves).</p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Scikit‑learn</span>
+          </div>
+          <p style="margin-top: 10px"><a href="#" target="_blank" rel="noopener">Docs</a> · <a href="#" target="_blank" rel="noopener">Code</a></p>
+        </div>
+      </article>
+      <!-- Project 3 -->
+      <article class="card">
+        <div class="thumb">Project C</div>
+        <div class="card-body">
+          <h3>Personal Finance Dashboard</h3>
+          <p class="muted">A serverless dashboard with CSV import, charts, and monthly insights.</p>
+          <div class="tags">
+            <span class="tag">Next.js</span>
+            <span class="tag">Edge</span>
+            <span class="tag">D3</span>
+          </div>
+          <p style="margin-top: 10px"><a href="#" target="_blank" rel="noopener">Live</a> · <a href="#" target="_blank" rel="noopener">Code</a></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="container">
+    <h2 class="section-title">Skills</h2>
+    <div class="grid skills">
+      <div class="chip">JavaScript / TypeScript</div>
+      <div class="chip">React / Next.js</div>
+      <div class="chip">Node / Express</div>
+      <div class="chip">Python / PyTorch</div>
+      <div class="chip">SQL / Postgres</div>
+      <div class="chip">Docker / CI</div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="container">
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline">
+      <div class="t-item">
+        <strong>Software Engineer — Company XYZ</strong>
+        <div class="muted">2023 — Present · Built internal tools used by 1k+ users</div>
+      </div>
+      <div class="t-item">
+        <strong>Research Assistant — University ABC</strong>
+        <div class="muted">2021 — 2023 · Worked on transformer models for tabular data</div>
+      </div>
+      <div class="t-item">
+        <strong>Freelance — Full‑stack</strong>
+        <div class="muted">2019 — 2021 · Delivered 12 client projects end‑to‑end</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="container">
+    <h2 class="section-title">Contact</h2>
+    <p class="muted">Say hello! This form posts to Formspree by default—replace the action with your own endpoint or email link.</p>
+    <form action="https://formspree.io/f/your-id" method="POST">
+      <input type="text" name="name" placeholder="Your name" required />
+      <input type="email" name="email" placeholder="Your email" required />
+      <textarea name="message" rows="5" placeholder="Your message" required></textarea>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap: 12px; flex-wrap: wrap;">
+      <div>© <span id="year"></span> Your Name. All rights reserved.</div>
+      <div style="display:flex; gap: 12px;">
+        <a href="https://github.com/youruser" aria-label="GitHub">GitHub</a>
+        <a href="https://www.linkedin.com/in/youruser" aria-label="LinkedIn">LinkedIn</a>
+        <a href="mailto:you@example.com" aria-label="Email">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href.length > 1) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
         }
+      });
+    });
 
-        async function loadData() {
-    try {
-        // Use proxy for Windborne API
-        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-        const response = await fetch(proxyUrl + "https://a.windbornesystems.com/treasure/00.json");
-        
-        if (!response.ok) throw new Error("Balloon data failed to load");
-        const balloons = await response.json();
+    // Theme toggle (dark <-> light)
+    const toggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || (!stored && !prefersDark)) setLight();
 
-        // Clear old markers
-        markers.forEach(marker => map.removeLayer(marker));
-        markers = [];
+    toggle.addEventListener('click', () => {
+      const isLight = document.documentElement.dataset.theme === 'light';
+      if (isLight) setDark(); else setLight();
+    });
 
-        // Process balloons
-        for (const balloon of balloons) {
-            if (balloon.lat && balloon.lon) {
-                // Add error handling for weather API
-                try {
-                    const weather = await fetchWeather(balloon.lat, balloon.lon);
-                    addMarker(balloon, weather);
-                } catch (weatherError) {
-                    console.warn("Weather fetch failed:", weatherError);
-                    addMarker(balloon, { temperature: "N/A", conditions: "Weather unavailable" });
-                }
-            }
-        }
-    } catch (error) {
-        console.error("Critical error:", error);
-        alert("Failed to load data. Check console for details.");
+    function setLight() {
+      document.documentElement.dataset.theme = 'light';
+      localStorage.setItem('theme', 'light');
+      document.body.style.background = 'linear-gradient(180deg, #f6f8ff, #eef3ff)';
+      document.body.style.color = '#0b0f16';
+      document.querySelectorAll('.muted').forEach(el => el.style.color = '#4b5563');
     }
-}
-
-        async function fetchWeather(lat, lon) {
-    try {
-        // Add timeout to avoid hanging requests
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-        // Get grid points
-        const pointsResponse = await fetch(
-            `https://api.weather.gov/points/${lat},${lon}`,
-            { signal: controller.signal }
-        );
-        clearTimeout(timeoutId);
-
-        if (!pointsResponse.ok) throw new Error("Grid points failed");
-        const pointsData = await pointsResponse.json();
-
-        // Get forecast
-        const forecastResponse = await fetch(pointsData.properties.forecast);
-        const forecastData = await forecastResponse.json();
-
-        return {
-            temperature: forecastData.properties.periods[0]?.temperature || "N/A",
-            conditions: forecastData.properties.periods[0]?.shortForecast || "Unknown"
-        };
-    } catch (error) {
-        console.error("Weather API error:", error);
-        return { temperature: "N/A", conditions: "Weather unavailable" };
+    function setDark() {
+      document.documentElement.dataset.theme = 'dark';
+      localStorage.setItem('theme', 'dark');
+      document.body.style.background = '';
+      document.body.style.color = '';
+      document.querySelectorAll('.muted').forEach(el => el.style.color = '');
     }
-}
-
-        // Add marker to map
-        function addMarker(balloon, weather) {
-            const marker = L.marker([balloon.lat, balloon.lon]).addTo(map);
-            marker.bindPopup(`
-                <b>Balloon ${balloon.id}</b><br>
-                Altitude: ${balloon.altitude}m<br>
-                Weather: ${weather.conditions}<br>
-                Temperature: ${weather.temperature}°F
-            `);
-            markers.push(marker);
-        }
-
-        // Initialize application
-        initMap();
-    </script>
+  </script>
 </body>
 </html>
