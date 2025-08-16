@@ -40,6 +40,7 @@
       color: var(--text);
       letter-spacing: 0.1px;
       min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
     a { color: var(--text); text-decoration: none; }
     .container { width: min(1100px, 92%); margin: 0 auto; }
@@ -50,6 +51,7 @@
       backdrop-filter: saturate(180%) blur(10px);
       background: rgba(10, 13, 19, 0.6);
       border-bottom: 1px solid var(--border);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: 0.5px; }
@@ -59,8 +61,14 @@
       box-shadow: 0 0 0 3px rgba(124,92,255,0.15), 0 8px 30px rgba(0, 210, 255, .2);
     }
     .nav-links { display: flex; gap: 18px; font-weight: 600; }
-    .nav-links a { padding: 8px 12px; border-radius: 10px; opacity: 0.9; transition: all 0.2s ease; }
-    .nav-links a:hover { background: var(--panel); box-shadow: 0 0 0 2px var(--border) inset; }
+    .nav-links a { 
+      padding: 8px 12px; border-radius: 10px; opacity: 0.9; 
+      transition: all 0.2s ease; 
+    }
+    .nav-links a:hover { 
+      background: var(--panel); 
+      box-shadow: 0 0 0 2px var(--border) inset; 
+    }
     .nav-actions { display: flex; align-items: center; gap: 10px; }
     
     .btn {
@@ -69,7 +77,7 @@
       background: linear-gradient(180deg, #0d1320, #0c101b);
       padding: 10px 14px; border-radius: 12px; font-weight: 600; 
       letter-spacing: 0.3px; cursor: pointer;
-      transition: transform .05s ease, box-shadow .2s ease;
+      transition: transform .05s ease, box-shadow .2s ease, background 0.3s ease, border-color 0.3s ease;
       font-size: 14px;
     }
     .btn:hover { box-shadow: 0 0 0 3px var(--ring); }
@@ -81,7 +89,10 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; transition: all 0.2s ease;
     }
-    .social-btn:hover { background: var(--panel); box-shadow: 0 0 0 2px var(--border) inset; }
+    .social-btn:hover { 
+      background: var(--panel); 
+      box-shadow: 0 0 0 2px var(--border) inset; 
+    }
 
     /* ---- HERO ---- */
     .hero { padding: 72px 0 36px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: center; }
@@ -98,11 +109,13 @@
       background: radial-gradient(120% 120% at 0% 0%, #12192a, #0d1320); 
       border: 1px solid var(--border); border-radius: 18px; padding: 18px; 
       box-shadow: 0 12px 40px rgba(0,0,0,0.35); 
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .pfp { 
       aspect-ratio: 1/1; width: 100%; border-radius: 14px; object-fit: cover; 
       background: linear-gradient(135deg, #1e2a4a, #0f1a2e); 
       border: 1px solid var(--border);
+      transition: border-color 0.3s ease;
     }
     .pfp-placeholder {
       display: flex; align-items: center; justify-content: center;
@@ -122,14 +135,17 @@
       padding: 12px 16px; border-radius: 12px; font-weight: 600; 
       text-align: center; transition: all 0.2s ease;
     }
-    .chip:hover { background: var(--panel); box-shadow: 0 0 0 2px var(--border) inset; }
+    .chip:hover { 
+      background: var(--panel); 
+      box-shadow: 0 0 0 2px var(--border) inset; 
+    }
 
     /* Projects */
     .projects { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
     .project-card { 
       background: var(--card); border: 1px solid var(--border); 
       border-radius: 16px; overflow: hidden; 
-      transition: transform .12s ease, box-shadow .25s ease;
+      transition: transform .12s ease, box-shadow .25s ease, background 0.3s ease, border-color 0.3s ease;
       cursor: pointer; text-decoration: none; color: inherit;
       display: block; height: 200px; position: relative;
     }
@@ -156,10 +172,11 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: 20px; width: min(800px, 95vw); max-height: 90vh;
       overflow-y: auto; position: relative;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
     .modal-header {
       padding: 30px 30px 20px; border-bottom: 1px solid var(--border);
-      position: relative;
+      position: relative; transition: border-color 0.3s ease;
     }
     .modal-title {
       font-size: 28px; font-weight: 800; margin: 0;
@@ -190,6 +207,7 @@
       font-size: 13px; padding: 8px 14px;
       background: var(--panel); border: 1px solid var(--border);
       border-radius: 20px; color: var(--text); font-weight: 600;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
     .modal-actions {
       display: flex; gap: 15px; flex-wrap: wrap;
@@ -206,6 +224,7 @@
     .modal-btn.secondary {
       background: transparent; color: var(--text);
       border: 1px solid var(--border);
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     /* Timeline */
@@ -231,7 +250,8 @@
     /* Footer */
     footer { 
       border-top: 1px solid var(--border); 
-      padding: 32px 0 40px; color: var(--muted); 
+      padding: 32px 0 40px; color: var(--muted);
+      transition: border-color 0.3s ease;
     }
     .footer-content {
       display: flex; align-items: center; justify-content: space-between; 
@@ -252,11 +272,21 @@
       --muted: #4b5563;
       --card: #ffffff;
       --border: #e5e7eb;
+      --ring: rgba(124, 92, 255, 0.15);
+    }
+    
+    [data-theme="light"] .nav {
+      background: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid #e5e7eb;
     }
     
     [data-theme="light"] .hero-card {
       background: radial-gradient(120% 120% at 0% 0%, #ffffff, #f8faff);
       box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    }
+    
+    [data-theme="light"] .pfp {
+      background: linear-gradient(135deg, #f8faff, #e5e7eb);
     }
     
     [data-theme="light"] .project-card {
@@ -287,18 +317,13 @@
       background: #f8faff;
     }
     
-    [data-theme="light"] .nav {
-      background: rgba(255, 255, 255, 0.6);
-      border-bottom: 1px solid #e5e7eb;
-    }
-    
     [data-theme="light"] .btn {
       background: linear-gradient(180deg, #ffffff, #f8faff);
       border: 1px solid #e5e7eb;
     }
     
     [data-theme="light"] .btn:hover {
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.15);
     }
     
     [data-theme="light"] .modal {
@@ -321,6 +346,16 @@
     
     [data-theme="light"] .modal-close:hover {
       background: #f1f5f9;
+    }
+    
+    [data-theme="light"] .social-btn:hover {
+      background: #f8faff;
+      box-shadow: 0 0 0 2px #e5e7eb inset;
+    }
+    
+    [data-theme="light"] .nav-links a:hover {
+      background: #f8faff;
+      box-shadow: 0 0 0 2px #e5e7eb inset;
     }
 
     /* Responsive */
@@ -479,18 +514,19 @@
       </div>
       <div class="modal-body">
         <p class="modal-description">
-          A modern serverless dashboard for personal financial management. Features CSV import capabilities, 
-          interactive charts powered by D3.js, and intelligent monthly insights. Built with Next.js and 
-          edge functions for optimal performance and scalability.
+          A collection of interactive shader experiments and visual effects created using GLSL. 
+          Features various mathematical visualizations, procedural animations, and real-time graphics demonstrations 
+          showcasing advanced rendering techniques and computational graphics.
         </p>
         <div class="modal-tags">
-          <span class="modal-tag">Next.js</span>
-          <span class="modal-tag">Edge Functions</span>
-          <span class="modal-tag">D3.js</span>
+          <span class="modal-tag">GLSL</span>
+          <span class="modal-tag">OpenGL</span>
+          <span class="modal-tag">Computer Graphics</span>
+          <span class="modal-tag">Mathematics</span>
         </div>
         <div class="modal-actions">
           <!--<a href="#" class="modal-btn" target="_blank" rel="noopener">Live Demo</a> -->
-          <a href="#" class="modal-btn secondary" target="_blank" rel="noopener">View projects</a>
+          <a href="#" class="modal-btn secondary" target="_blank" rel="noopener">View Projects</a>
         </div>
       </div>
     </div>
@@ -565,23 +601,7 @@
     </div>
   </section>
 
- <!-- <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div>© <span id="year"></span> Shyam Sivasubramanian. All rights reserved.</div>
-        <div class="footer-links">
-          <a href="https://github.com/Shyam-Sivasubramanian" aria-label="GitHub">GitHub</a>
-          <a href="https://www.linkedin.com/in/shyam-sivasubramanian-69a420216/" aria-label="LinkedIn">LinkedIn</a>
-          <a href="mailto:sivasubr@purdue.edu" aria-label="Email">Email</a>
-        </div>
-      </div>
-    </div>
-  </footer> -->
-
   <script>
-    // Set current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -599,19 +619,20 @@
       });
     });
 
-    // Theme toggle functionality
+    // Theme toggle functionality - using in-memory storage instead of localStorage
     const toggle = document.getElementById('themeToggle');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const stored = localStorage.getItem('theme');
+    let currentTheme = prefersDark ? 'dark' : 'light';
     
     // Initialize theme
-    if (stored === 'light' || (!stored && !prefersDark)) {
+    if (currentTheme === 'light') {
       setLight();
+    } else {
+      setDark();
     }
 
     toggle.addEventListener('click', () => {
-      const isLight = document.documentElement.dataset.theme === 'light';
-      if (isLight) {
+      if (currentTheme === 'light') {
         setDark();
       } else {
         setLight();
@@ -620,13 +641,13 @@
 
     function setLight() {
       document.documentElement.dataset.theme = 'light';
-      localStorage.setItem('theme', 'light');
+      currentTheme = 'light';
       toggle.textContent = '🌙';
     }
 
     function setDark() {
       document.documentElement.dataset.theme = 'dark';
-      localStorage.setItem('theme', 'dark');
+      currentTheme = 'dark';
       toggle.textContent = '☀️';
     }
 
