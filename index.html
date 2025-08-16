@@ -31,14 +31,12 @@
     
     html { 
       height: 100%;
-      background: linear-gradient(180deg, var(--bg), #0a0d13 40%, #070a0f 100%);
-      background-attachment: fixed;
     }
     
     body {
       margin: 0; 
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: transparent;
+      background: var(--bg);
       color: var(--text);
       letter-spacing: 0.1px;
       min-height: 100vh;
@@ -624,16 +622,12 @@
       document.documentElement.dataset.theme = 'light';
       localStorage.setItem('theme', 'light');
       toggle.textContent = '🌙';
-      document.documentElement.style.background = 'linear-gradient(180deg, #f6f8ff, #eef3ff)';
-      document.documentElement.style.backgroundAttachment = 'fixed';
     }
 
     function setDark() {
       document.documentElement.dataset.theme = 'dark';
       localStorage.setItem('theme', 'dark');
       toggle.textContent = '☀️';
-      document.documentElement.style.background = 'linear-gradient(180deg, #0b0f16, #0a0d13 40%, #070a0f 100%)';
-      document.documentElement.style.backgroundAttachment = 'fixed';
     }
 
     // Modal functionality
