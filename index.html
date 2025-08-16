@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shyam Siva</title>
-  <meta name="description" content="Shyam Sivasubramanian's portfolio" />
+  <meta name="description" content="Personal portfolio of Your Name: projects, experience, skills, and contact." />
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3CradialGradient id='grad' cx='30%25' cy='30%25' r='90%25'%3E%3Cstop offset='0%25' style='stop-color:%237c5cff;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%2300d2ff;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='34' height='34' rx='10' fill='url(%23grad)'/%3E%3C/svg%3E">
@@ -246,6 +246,38 @@
       background: var(--brand); 
       box-shadow: 0 0 0 3px rgba(124,92,255,.25); 
     }
+    
+    .t-item.current::after { 
+      background: var(--success); 
+      box-shadow: 0 0 0 3px rgba(56, 211, 159, .25); 
+    }
+
+    /* Timeline Key */
+    .timeline-key {
+      display: flex; gap: 24px; margin-bottom: 24px; 
+      padding: 16px 20px; background: var(--panel); 
+      border: 1px solid var(--border); border-radius: 12px;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .key-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--muted);
+    }
+    .key-dot {
+      width: 10px; height: 10px; border-radius: 999px;
+      background: var(--brand); 
+      box-shadow: 0 0 0 3px rgba(124,92,255,.25);
+    }
+    .key-dot.current {
+      background: var(--success); 
+      box-shadow: 0 0 0 3px rgba(56, 211, 159, .25);
+    }
+    
+    /* Light theme key */
+    [data-theme="light"] .timeline-key {
+      background: #f8faff;
+      border: 1px solid #e5e7eb;
+    }
 
     /* Footer */
     footer { 
@@ -419,7 +451,7 @@
     <div>
       <div class="kicker">Hello, I'm</div>
       <h1>Shyam Sivasubramanian</h1>
-      <p class="subtitle">I am a currently in my third year (Class of 2027) at Purdue University double majoring in computer science with a concentration in computer graphics. I am additionally pursuing a data science major.</p>
+      <p class="subtitle">I am a current junior (Class of 2027) at Purdue University double majoring in computer and data science.</p>
       <!--<div class="cta">
         <a class="btn btn-primary" href="#projects">See my work →</a>
         <a class="btn btn-ghost" href="#contact">Get in touch</a>
@@ -448,7 +480,7 @@
 
       <!-- Project 3: Finance Dashboard -->
       <div class="project-card" onclick="openModal('finance')">
-        <div class="project-title">Shader Studies</div>
+        <div class="project-title">Shader Toy</div>
       </div>
 
     </div>
@@ -475,7 +507,7 @@
         </div>
         <div class="modal-actions">
           <!-- <a href="#" class="modal-btn" target="_blank" rel="noopener">View Website</a> -->
-          <a href="https://github.com/Shyam-Sivasubramanian/DeepRow" class="modal-btn" target="_blank" rel="noopener">View Code</a>
+          <a href="https://github.com/Shyam-Sivasubramanian/DeepRow" class="modal-btn secondary" target="_blank" rel="noopener">View Code</a>
         </div>
       </div>
     </div>
@@ -500,7 +532,7 @@
         </div>
         <div class="modal-actions">
           <a href="https://shyam-sivasubramanian.github.io/Minesweeper/" class="modal-btn" target="_blank" rel="noopener">View Webiste</a>
-          <a href="https://github.com/Shyam-Sivasubramanian/Minesweeper" class="modal-btn" target="_blank" rel="noopener">View Code</a>
+          <a href="https://github.com/Shyam-Sivasubramanian/Minesweeper" class="modal-btn secondary" target="_blank" rel="noopener">View Code</a>
         </div>
       </div>
     </div>
@@ -509,13 +541,14 @@
   <div class="modal-overlay" id="modal-finance">
     <div class="modal">
       <div class="modal-header">
-        <h3 class="modal-title">Shader Studies</h3>
+        <h3 class="modal-title">ShaderToy</h3>
         <button class="modal-close" onclick="closeModal('finance')">&times;</button>
       </div>
       <div class="modal-body">
         <p class="modal-description">
-          This Shader study was a personal passion project that I pursued to learn more about computer graphics, 
-          multivariable calculus, and animation. The project employed GLSL and OpenGL and was coded on Shadertoy- an online GLSL compiler.
+          A collection of interactive shader experiments and visual effects created using GLSL. 
+          Features various mathematical visualizations, procedural animations, and real-time graphics demonstrations 
+          showcasing advanced rendering techniques and computational graphics.
         </p>
         <div class="modal-tags">
           <span class="modal-tag">GLSL</span>
@@ -525,7 +558,7 @@
         </div>
         <div class="modal-actions">
           <!--<a href="#" class="modal-btn" target="_blank" rel="noopener">Live Demo</a> -->
-          <a href="https://www.shadertoy.com/user/StudioShyam" class="modal-btn" target="_blank" rel="noopener">View Projects</a>
+          <a href="#" class="modal-btn secondary" target="_blank" rel="noopener">View Projects</a>
         </div>
       </div>
     </div>
@@ -571,20 +604,33 @@
   <!-- EXPERIENCE -->
   <section id="experience" class="container">
     <h2 class="section-title">Experience</h2>
+    
+    <!-- Timeline Key -->
+    <div class="timeline-key">
+      <div class="key-item">
+        <div class="key-dot current"></div>
+        <span>Current Position</span>
+      </div>
+      <div class="key-item">
+        <div class="key-dot"></div>
+        <span>Past Position</span>
+      </div>
+    </div>
+    
     <div class="timeline">
       <div class="t-item">
         <strong>Data Science and ML Intern - Karyon.bio</strong>
         <div class="muted">MAY 2025 — AUG 2025 · Created graphs and classification models to detect fatty liver disease on clinical data. Additionally, tested image models on medical scans.</div>
       </div>
-      <div class="t-item">
+      <div class="t-item current">
         <strong>Researcher - Purdue CoMMa Lab</strong>
-        <div class="muted">AUG 2024 — Present · Working with Professor Zachary Kingston on collision detection, avoidance, and virtual reality applications for robot manipulators.</div>
+        <div class="muted">JAN 2025 — Present · Working with Professor Zachary Kingston on collision detection, avoidance, and virtual reality applications for robot manipulators.</div>
       </div>
-      <div class="t-item">
+      <div class="t-item current">
         <strong>Web Developer - The Purdue Rivet</strong>
         <div class="muted">APR 2025 — Present · Using HTML, CSS, and JavaScript to create a website for the Purdue Rivet, a student-run publication.</div>
       </div>
-      <div class="t-item">
+      <div class="t-item current">
         <strong>Staff Photographer, Graphics Artist - The Purdue Exponent</strong>
         <div class="muted">AUG 2023 — Present · Used my skills in photography and art to add context to news stories published on Purdue's student run newspaper.</div>
       </div>
