@@ -28,13 +28,20 @@
       --error: #ef476f;
     }
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    
+    html { 
+      height: 100%;
+      background: linear-gradient(180deg, var(--bg), #0a0d13 40%, #070a0f 100%);
+      background-attachment: fixed;
+    }
+    
     body {
       margin: 0; 
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: linear-gradient(180deg, var(--bg), #0a0d13 40%, #070a0f 100%);
+      background: transparent;
       color: var(--text);
       letter-spacing: 0.1px;
+      min-height: 100vh;
     }
     a { color: var(--text); text-decoration: none; }
     .container { width: min(1100px, 92%); margin: 0 auto; }
@@ -239,24 +246,6 @@
     }
     .footer-links a:hover { color: var(--text); }
 
-    /* Responsive */
-    @media (max-width: 920px) {
-      .hero { grid-template-columns: 1fr; text-align: center; }
-      .hero-card { max-width: 300px; margin: 0 auto; }
-      .nav-links { display: none; }
-    }
-    @media (max-width: 620px) {
-      .projects { grid-template-columns: 1fr; }
-      .skills { grid-template-columns: 1fr; }
-      .social-links { gap: 6px; }
-      .social-btn { width: 36px; height: 36px; font-size: 14px; }
-      .btn { padding: 8px 12px; font-size: 13px; }
-      .footer-content { flex-direction: column; text-align: center; }
-      .modal { margin: 10px; }
-      .modal-header, .modal-body { padding: 20px; }
-      .modal-actions { flex-direction: column; }
-    }
-
     /* Light theme overrides */
     [data-theme="light"] {
       --bg: #f6f8ff;
@@ -334,6 +323,24 @@
     
     [data-theme="light"] .modal-close:hover {
       background: #f1f5f9;
+    }
+
+    /* Responsive */
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-card { max-width: 300px; margin: 0 auto; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 620px) {
+      .projects { grid-template-columns: 1fr; }
+      .skills { grid-template-columns: 1fr; }
+      .social-links { gap: 6px; }
+      .social-btn { width: 36px; height: 36px; font-size: 14px; }
+      .btn { padding: 8px 12px; font-size: 13px; }
+      .footer-content { flex-direction: column; text-align: center; }
+      .modal { margin: 10px; }
+      .modal-header, .modal-body { padding: 20px; }
+      .modal-actions { flex-direction: column; }
     }
   </style>
 </head>
@@ -520,7 +527,6 @@
       <div class="chip">Statsmodels</div>
       <div class="chip">Stablebaselines 3</div>
       <div class="chip">Pytorch</div>
-      <div class="chip">Python</div>
       <div class="chip">Git</div>
       <div class="chip">CLI</div>
       <div class="chip">Linux</div>
@@ -618,16 +624,16 @@
       document.documentElement.dataset.theme = 'light';
       localStorage.setItem('theme', 'light');
       toggle.textContent = '🌙';
-      document.body.style.background = 'linear-gradient(180deg, #f6f8ff, #eef3ff)';
-      document.body.style.color = '#0b0f16';
+      document.documentElement.style.background = 'linear-gradient(180deg, #f6f8ff, #eef3ff)';
+      document.documentElement.style.backgroundAttachment = 'fixed';
     }
 
     function setDark() {
       document.documentElement.dataset.theme = 'dark';
       localStorage.setItem('theme', 'dark');
       toggle.textContent = '☀️';
-      document.body.style.background = '';
-      document.body.style.color = '';
+      document.documentElement.style.background = 'linear-gradient(180deg, #0b0f16, #0a0d13 40%, #070a0f 100%)';
+      document.documentElement.style.backgroundAttachment = 'fixed';
     }
 
     // Modal functionality
