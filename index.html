@@ -26,6 +26,29 @@
       --border-light: #F0EDE9;
       --shadow-soft: rgba(45, 52, 54, 0.04);
       --shadow-medium: rgba(45, 52, 54, 0.08);
+      --particle-color: var(--accent-warm);
+      --timeline-line: linear-gradient(180deg, var(--accent) 0%, var(--accent-warm) 50%, var(--border) 100%);
+      --dot-current-bg: #B8D4C8;
+      --dot-current-shadow: rgba(184, 212, 200, 0.4);
+    }
+    
+    [data-theme="dark"] {
+      --bg: #1A1D1F;
+      --bg-warm: #212527;
+      --panel: #262A2D;
+      --text: #E8E4E0;
+      --muted: #9CA3A8;
+      --accent: #3D3530;
+      --accent-warm: #5C4A3D;
+      --accent-glow: rgba(92, 74, 61, 0.4);
+      --border: #363B3F;
+      --border-light: #2E3235;
+      --shadow-soft: rgba(0, 0, 0, 0.2);
+      --shadow-medium: rgba(0, 0, 0, 0.35);
+      --particle-color: rgba(245, 230, 211, 0.3);
+      --timeline-line: linear-gradient(180deg, var(--accent-warm) 0%, var(--accent) 50%, var(--border) 100%);
+      --dot-current-bg: #6B9080;
+      --dot-current-shadow: rgba(107, 144, 128, 0.4);
     }
     
     * { 
@@ -47,6 +70,7 @@
       font-size: 18px;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
     
     /* Floating particles */
@@ -65,7 +89,7 @@
       position: absolute;
       width: 3px;
       height: 3px;
-      background: var(--accent-warm);
+      background: var(--particle-color);
       border-radius: 50%;
       opacity: 0;
       animation: float 20s infinite;
@@ -135,7 +159,7 @@
     }
     
     .nav.scrolled {
-      background: rgba(250, 248, 245, 0.9);
+      background: var(--bg);
       backdrop-filter: blur(20px);
       box-shadow: 0 1px 0 var(--border-light);
     }
@@ -234,6 +258,61 @@
       background: var(--accent);
       color: var(--text);
       box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    
+    /* Theme Toggle */
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .theme-toggle:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--text);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--accent-warm);
+      outline-offset: 2px;
+    }
+    
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
+      position: absolute;
+      transition: all 0.4s ease;
+    }
+    
+    .theme-toggle .icon-sun {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+    
+    .theme-toggle .icon-moon {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+    
+    [data-theme="dark"] .theme-toggle .icon-sun {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.5);
+    }
+    
+    [data-theme="dark"] .theme-toggle .icon-moon {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
     }
     
     .btn {
@@ -339,6 +418,7 @@
       overflow: hidden;
       background: linear-gradient(180deg, var(--accent) 0%, var(--bg-warm) 100%);
       box-shadow: 0 20px 60px var(--shadow-medium);
+      transition: all 0.5s ease;
     }
     
     .pfp {
@@ -408,6 +488,7 @@
       justify-content: center;
       position: relative;
       overflow: hidden;
+      transition: all 0.5s ease;
     }
     
     .project-visual::after {
@@ -470,11 +551,13 @@
       background: var(--bg);
       border-radius: 100px;
       color: var(--muted);
+      transition: all 0.3s ease;
     }
     
     /* Skills */
     .skills-section {
       background: var(--bg-warm);
+      transition: background-color 0.5s ease;
     }
     
     .skills-grid {
@@ -535,11 +618,12 @@
       border-radius: 50%;
       background: var(--accent-warm);
       box-shadow: 0 0 0 4px var(--accent);
+      transition: all 0.3s ease;
     }
     
     .key-dot.current {
-      background: #B8D4C8;
-      box-shadow: 0 0 0 4px rgba(184, 212, 200, 0.4);
+      background: var(--dot-current-bg);
+      box-shadow: 0 0 0 4px var(--dot-current-shadow);
     }
     
     .timeline {
@@ -554,7 +638,7 @@
       top: 0;
       bottom: 0;
       width: 1px;
-      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-warm) 50%, var(--border) 100%);
+      background: var(--timeline-line);
     }
     
     .t-item {
@@ -583,11 +667,12 @@
       border-radius: 50%;
       background: var(--accent-warm);
       box-shadow: 0 0 0 4px var(--accent);
+      transition: all 0.3s ease;
     }
     
     .t-item.current::before {
-      background: #B8D4C8;
-      box-shadow: 0 0 0 4px rgba(184, 212, 200, 0.4);
+      background: var(--dot-current-bg);
+      box-shadow: 0 0 0 4px var(--dot-current-shadow);
     }
     
     .t-title {
@@ -632,6 +717,10 @@
       transition: opacity 0.4s ease;
     }
     
+    [data-theme="dark"] .modal-overlay {
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
     .modal-overlay.active {
       display: flex;
       opacity: 1;
@@ -646,7 +735,11 @@
       position: relative;
       box-shadow: 0 30px 100px rgba(45, 52, 54, 0.15);
       transform: translateY(20px);
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, background-color 0.5s ease;
+    }
+    
+    [data-theme="dark"] .modal {
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
     }
     
     .modal-overlay.active .modal {
@@ -718,6 +811,7 @@
       background: var(--bg);
       border-radius: 100px;
       color: var(--muted);
+      transition: all 0.3s ease;
     }
     
     .modal-actions {
@@ -766,6 +860,7 @@
       border-top: 1px solid var(--border-light);
       padding: 48px 0;
       text-align: center;
+      transition: border-color 0.5s ease;
     }
     
     .footer-content {
@@ -881,6 +976,14 @@
         align-items: center;
         gap: 16px;
       }
+      
+      .nav-actions {
+        gap: 8px;
+      }
+      
+      .social-links {
+        display: none;
+      }
     }
     
     /* Reduced motion */
@@ -928,6 +1031,22 @@
         <a href="#experience">Experience</a>
       </div>
       <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
         <div class="social-links">
           <a class="social-btn" href="https://github.com/Shyam-Sivasubramanian" target="_blank" rel="noopener" aria-label="GitHub">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -1228,9 +1347,13 @@
   </footer>
 
   <script>
+    // Initialize variables first
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let currentTheme = prefersDark ? 'dark' : 'light';
+    
     // Initialize particles
     const particlesContainer = document.querySelector('.particles');
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     if (!prefersReducedMotion && particlesContainer) {
       for (let i = 0; i < 15; i++) {
@@ -1243,11 +1366,29 @@
       }
     }
     
+    // Set initial theme
+    if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    
+    themeToggle.addEventListener('click', function() {
+      if (currentTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        currentTheme = 'dark';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        currentTheme = 'light';
+      }
+    });
+    
     // Navigation scroll effect
     const nav = document.getElementById('nav');
     let lastScroll = 0;
     
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', function() {
       const currentScroll = window.pageYOffset;
       if (currentScroll > 50) {
         nav.classList.add('scrolled');
@@ -1260,10 +1401,10 @@
     // Scroll reveal
     const revealElements = document.querySelectorAll('.reveal');
     
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
+    const revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry, index) {
         if (entry.isIntersecting) {
-          setTimeout(() => {
+          setTimeout(function() {
             entry.target.classList.add('visible');
           }, index * 100);
           revealObserver.unobserve(entry.target);
@@ -1274,10 +1415,12 @@
       rootMargin: '0px 0px -50px 0px'
     });
     
-    revealElements.forEach(el => revealObserver.observe(el));
+    revealElements.forEach(function(el) {
+      revealObserver.observe(el);
+    });
     
     // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
       anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         if (href.length > 1) {
@@ -1311,8 +1454,8 @@
     }
     
     // Close modal on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => {
+    document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+      overlay.addEventListener('click', function(e) {
         if (e.target === overlay) {
           overlay.classList.remove('active');
           document.body.style.overflow = '';
@@ -1321,9 +1464,9 @@
     });
     
     // Close modal on Escape
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+        document.querySelectorAll('.modal-overlay.active').forEach(function(modal) {
           modal.classList.remove('active');
           document.body.style.overflow = '';
         });
